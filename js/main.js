@@ -64,9 +64,7 @@
         form.reset();
         form.hidden = true;
         status.classList.add("success");
-        showStatus(
-          "You’re on the list. Thank you for joining the journey. Your publication-notification request has been saved."
-        );
+        showStatus("Thank you for your submission! We will be in touch soon!");
       })
       .catch(function (error) {
         /* A network failure's own message isn't meant for visitors. */
