@@ -1,0 +1,5 @@
+.DS_Store
+
+# Brand sheet and its assets: not used by the site, and include the unrevealed book cover
+logo.html
+assets/
