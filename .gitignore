@@ -1,5 +1,33 @@
+# Operating system files
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+Desktop.ini
 
-# Brand sheet and its assets: not used by the site, and include the unrevealed book cover
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+.cache/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+
+# Local brand files, not used by the site
 logo.html
 assets/
