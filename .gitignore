@@ -27,7 +27,3 @@ build/
 .env
 .env.*
 !.env.example
-
-# Local brand files, not used by the site
-logo.html
-assets/

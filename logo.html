@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Sheet — The Father Is Not Hiring</title>
+<style>
+  :root {
+    --ink:#1C1B19; --ink-2:#35322D; --ink-soft:#6B655D;
+    --warm:#F7F3EC; --warm-2:#EFE8DC;
+    --gold:#C0902F; --gold-soft:#E0BC77;
+    --rule:rgba(28,27,25,.14);
+    --serif:Georgia,'Times New Roman',serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--serif);background:var(--warm);color:var(--ink);line-height:1.6}
+  .wrap{max-width:980px;margin:0 auto;padding:0 26px}
+  header{background:var(--ink);color:var(--warm);padding:54px 0 46px}
+  header p{color:var(--gold-soft);letter-spacing:.24em;text-transform:uppercase;font-size:.74rem;margin-bottom:14px}
+  h1{font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.15}
+  h2{font-size:1.35rem;margin-bottom:6px}
+  section{padding:52px 0;border-bottom:1px solid var(--rule)}
+  .note{color:var(--ink-soft);font-size:.95rem;max-width:640px;margin-bottom:26px}
+  .panel{display:flex;flex-wrap:wrap;gap:26px;align-items:center}
+  .tile{border:1px solid var(--rule);border-radius:12px;padding:26px;display:flex;align-items:center;justify-content:center;min-height:190px;flex:1 1 240px}
+  .tile.dark{background:var(--ink);border-color:transparent}
+  .tile.paper{background:var(--warm-2)}
+  .sizes{display:flex;gap:26px;align-items:flex-end;flex-wrap:wrap}
+  .sizes figure{text-align:center;color:var(--ink-soft);font-size:.72rem;letter-spacing:.1em}
+  .sizes img{display:block;margin:0 auto 8px}
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+  .sw{border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+  .sw .chip{height:64px}
+  .sw .meta{padding:9px 12px;font-size:.78rem;color:var(--ink-soft)}
+  .sw .meta b{display:block;color:var(--ink);font-size:.86rem}
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  th{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  code{font-family:ui-monospace,Menlo,monospace;font-size:.84rem;background:var(--warm-2);padding:1px 6px;border-radius:5px}
+  ul{margin:0 0 0 20px}
+  li{margin-bottom:7px}
+  .lockup{display:inline-flex;align-items:center;gap:10px;font-size:1.05rem;letter-spacing:.04em}
+  .lockup em{font-style:normal;color:var(--gold-soft)}
+  footer{padding:34px 0 56px;color:var(--ink-soft);font-size:.85rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p>prodigal-son.com</p>
+    <h1>Brand Sheet</h1>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>The logo</h2>
+    <p class="note">An arched doorway standing open, the father with arms wide, the son walking in off the winding road. Every element of the book is in it: the open door that never shuts, the run, the embrace, and the road that runs in both directions.</p>
+    <div class="panel">
+      <div class="tile paper"><img src="assets/logo-ink.png" alt="Logo in ink on warm paper" height="230"></div>
+      <div class="tile dark"><img src="assets/logo-paper.png" alt="Logo in paper on ink" height="230"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>The cover</h2>
+    <p class="note">The same illustration, with the title set inside the arch. Cover and logo are one drawing, which is why the site needs no separate visual language for the book.</p>
+    <div class="panel">
+      <div class="tile paper"><img src="assets/cover-440.jpg" alt="Book cover" height="300"></div>
+      <div class="tile dark" style="padding:16px"><img src="assets/og-cover.jpg" alt="Social share card" style="width:100%;max-width:430px"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>The mark</h2>
+    <p class="note">A simplified drawing of the same scene for small sizes, where the full logo turns to mush. It holds down to roughly 18&nbsp;px. Use it for favicons, avatars, and the site header.</p>
+    <div class="sizes">
+      <figure><img src="assets/mark-ink.svg" width="120"><figcaption>120</figcaption></figure>
+      <figure><img src="assets/mark-ink.svg" width="64"><figcaption>64</figcaption></figure>
+      <figure><img src="assets/mark-ink.svg" width="40"><figcaption>40</figcaption></figure>
+      <figure><img src="assets/mark-ink.svg" width="28"><figcaption>28</figcaption></figure>
+      <figure><img src="assets/mark-ink.svg" width="18"><figcaption>18</figcaption></figure>
+    </div>
+    <div class="panel" style="margin-top:30px">
+      <div class="tile dark">
+        <span class="lockup" style="color:var(--warm)">
+          <img src="assets/mark-paper.svg" width="28" alt="">prodigal<em>-</em>son<em>.com</em>
+        </span>
+      </div>
+      <div class="tile paper">
+        <span class="lockup">
+          <img src="assets/mark-ink.svg" width="28" alt="">prodigal<em style="color:var(--gold)">-</em>son<em style="color:var(--gold)">.com</em>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Palette</h2>
+    <p class="note">The logo is black and white, so the palette stays out of its way: ink and paper, lit by a single lamp. The lamplight gold is the only hue, and it carries the porch-light idea the book keeps returning to.</p>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#1C1B19"></div><div class="meta"><b>Ink</b>#1C1B19</div></div>
+      <div class="sw"><div class="chip" style="background:#35322D"></div><div class="meta"><b>Ink 2</b>#35322D</div></div>
+      <div class="sw"><div class="chip" style="background:#6B655D"></div><div class="meta"><b>Ink soft</b>#6B655D</div></div>
+      <div class="sw"><div class="chip" style="background:#F7F3EC"></div><div class="meta"><b>Paper</b>#F7F3EC</div></div>
+      <div class="sw"><div class="chip" style="background:#EFE8DC"></div><div class="meta"><b>Paper 2</b>#EFE8DC</div></div>
+      <div class="sw"><div class="chip" style="background:#C0902F"></div><div class="meta"><b>Lamplight</b>#C0902F</div></div>
+      <div class="sw"><div class="chip" style="background:#E0BC77"></div><div class="meta"><b>Lamplight soft</b>#E0BC77</div></div>
+    </div>
+    <p class="note" style="margin-top:22px">The book is monochrome throughout. The interior once specified a slate teal for pull-quote rules; those rules are now set in a mid grey, <code>#6B655D</code>, so no spot colour appears anywhere in the cover, the logo, or the interior. Lamplight gold is a web accent only, used for type and rules.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Files</h2>
+    <table>
+      <tr><th>File</th><th>What it is</th><th>Use</th></tr>
+      <tr><td><code>assets/logo-ink.png</code></td><td>Full logo, ink, transparent</td><td>Light backgrounds</td></tr>
+      <tr><td><code>assets/logo-paper.png</code></td><td>Full logo, paper, transparent</td><td>Dark backgrounds</td></tr>
+      <tr><td><code>assets/logo-ink-sm.png</code></td><td>Full logo at 28%</td><td>Email, thumbnails</td></tr>
+      <tr><td><code>assets/mark.svg</code></td><td>Simplified mark, <code>currentColor</code></td><td>Inline in HTML only</td></tr>
+      <tr><td><code>assets/mark-ink.svg</code></td><td>Simplified mark, fixed ink</td><td><code>&lt;img&gt;</code>, favicon, social</td></tr>
+      <tr><td><code>assets/mark-paper.svg</code></td><td>Simplified mark, fixed paper</td><td><code>&lt;img&gt;</code> on dark</td></tr>
+      <tr><td><code>assets/cover-440.jpg</code></td><td>Book cover, 440&nbsp;px wide</td><td>Site, 1&times;</td></tr>
+      <tr><td><code>assets/cover-880.jpg</code></td><td>Book cover, 880&nbsp;px wide</td><td>Site, 2&times; (srcset)</td></tr>
+      <tr><td><code>assets/og-cover.jpg</code></td><td>Social card, 1200&times;630</td><td>Open Graph, Twitter</td></tr>
+      <tr><td><code>../design-logo.png</code></td><td>Original logo artwork, white background</td><td>Master. Print, or re-deriving assets</td></tr>
+      <tr><td><code>../design2.png</code></td><td>Original cover, 3333&times;5329</td><td>Master. Print, or re-deriving covers</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Usage</h2>
+    <ul>
+      <li><strong>Clear space.</strong> Keep free space around the logo equal to the height of the doorway arch. Give it room; the composition needs air.</li>
+      <li><strong>Minimum sizes.</strong> Full logo: 90&nbsp;px tall on screen, 20&nbsp;mm in print. Below that, switch to the mark.</li>
+      <li><strong>Colour.</strong> Ink on paper, or paper on ink. The artwork carries soft grey gradients, so avoid busy photographic backgrounds — the arch loses its edge.</li>
+      <li><strong>Do not</strong> stretch, rotate, outline, add a drop shadow, or recolour the artwork into the gold. The gold is for type and rules only.</li>
+      <li><strong>The mark is a simplification, not a crop.</strong> It is redrawn, so the two will not overlay exactly. That is intended: detail that reads at 230&nbsp;px becomes noise at 28&nbsp;px.</li>
+      <li><strong><code>currentColor</code> needs inlining.</strong> An SVG loaded through <code>&lt;img&gt;</code> is an isolated document and cannot inherit page colour. Inline <code>mark.svg</code>, or use the fixed-colour variants.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">The Father Is Not Hiring · Miary Andria · prodigal-son.com</div>
+</footer>
+
+</body>
+</html>

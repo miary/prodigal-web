@@ -14,7 +14,9 @@ It is a static site built with plain HTML, CSS and JavaScript. It has no build s
 ├── css/style.css   Styles, including the font declarations
 ├── js/main.js      Dialog and sign-up form behavior
 ├── fonts/          Self-hosted web fonts and their licenses
-└── images/         Site images
+├── images/         Site images
+├── logo.html       Brand sheet (not linked from the main page)
+└── assets/         Logos, marks and book cover images used by the brand sheet
 ```
 
 ## Running locally

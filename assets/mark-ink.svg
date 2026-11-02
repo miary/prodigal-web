@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="A figure with arms outstretched in an open doorway, above the road home">
+  <title>The Father Is Not Hiring</title>
+  <!-- Simplified mark derived from design-logo.png, drawn to stay legible down
+       to about 18px. Colour is inherited via #1C1B19, so this file must be
+       INLINED in the page (an <img> tag isolates it and #1C1B19 resolves
+       to black). Use mark-ink.svg / mark-paper.svg for <img>, favicon, social. -->
+
+  <!-- the road home -->
+  <g fill="none" stroke="#1C1B19" stroke-linecap="round" opacity=".4">
+    <path d="M50 102 C43 108 32 113 19 118" stroke-width="4.5"/>
+    <path d="M70 102 C77 108 88 113 101 118" stroke-width="4.5"/>
+  </g>
+
+  <!-- the doorway, standing open -->
+  <path d="M20 102 V58 a40 40 0 0 1 80 0 V102"
+        fill="none" stroke="#1C1B19" stroke-width="7.5" stroke-linecap="round"/>
+
+  <!-- the father: arms wide -->
+  <path d="M31 71 Q60 60 89 71"
+        fill="none" stroke="#1C1B19" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- the father: head and body -->
+  <g fill="#1C1B19">
+    <circle cx="60" cy="53" r="7.5"/>
+    <path d="M53 102 V71 a7 7 0 0 1 14 0 V102 Z"/>
+  </g>
+</svg>
