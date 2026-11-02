@@ -42,10 +42,10 @@ if (strlen($email) > 254 || filter_var($email, FILTER_VALIDATE_EMAIL) === false)
     respond(422, ['error' => 'Please enter a valid email address.']);
 }
 if (empty($_POST['consent'])) {
-    respond(422, ['error' => 'Please confirm that you’d like to receive the email.']);
+    respond(422, ['error' => 'Please confirm that you’d like to receive emails.']);
 }
 if (mb_strlen($name) > 80) {
-    respond(422, ['error' => 'Please shorten your first name to 80 characters or fewer.']);
+    respond(422, ['error' => 'Please shorten your full name to 80 characters or fewer.']);
 }
 
 try {
@@ -60,7 +60,7 @@ try {
 
     /* A repeat sign-up keeps the original entry and gets the same response. */
     $statement = $pdo->prepare(
-        'INSERT INTO signups (email, first_name, consent) VALUES (?, ?, 1)
+        'INSERT INTO signups (email, full_name, consent) VALUES (?, ?, 1)
          ON DUPLICATE KEY UPDATE email = email'
     );
     $statement->execute([$email, $name === '' ? null : $name]);

@@ -153,8 +153,8 @@
       </div>
       <div class="form-wrap">
         <form id="signup-form" action="api/signup.php" method="post" aria-label="Book publication notification" aria-describedby="signup-privacy">
-          <label for="name">First name <span>(optional)</span></label>
-          <input id="name" name="name" autocomplete="given-name" placeholder="Your first name" maxlength="80">
+          <label for="name">Full name <span>(optional)</span></label>
+          <input id="name" name="name" autocomplete="name" placeholder="Your full name" maxlength="80">
 
           <label for="email">Email address (required)</label>
           <input id="email" name="email" type="email" inputmode="email" autocapitalize="none" spellcheck="false" autocomplete="email" placeholder="you@example.com" maxlength="254" required>
@@ -165,14 +165,14 @@
 
           <label class="consent">
             <input type="checkbox" name="consent" required>
-            <span>I’d like to receive an email when the book is published. (Required)</span>
+            <span>I’d like to receive email news and updates related to this website, including when the new book is published. (Required)</span>
           </label>
 
           <button class="button light" type="submit">Notify me when it’s published <span aria-hidden="true">↗</span></button>
         </form>
         <p id="signup-status" class="form-status" role="status" aria-atomic="true" tabindex="-1"></p>
         <p id="signup-privacy" class="privacy-note">
-          Your details are saved for the book announcement.<br>
+          Your details are saved for news and updates related to this website.<br>
           <button aria-haspopup="dialog" data-dialog="dialog-privacy">Read the privacy note</button>
         </p>
       </div>
@@ -265,7 +265,7 @@
     <article>
       <div class="eyebrow">PRIVACY NOTE</div>
       <h2 id="dialog-privacy-title">A simple invitation.</h2>
-      <p>This form collects your email address, optional first name, consent, and the date of your request so you can be notified when the new book is published.</p>
+      <p>This form collects your email address, optional full name, consent, and the date of your request so you can be notified when the new book is published.</p>
       <p>Your email address will never be shared with any other party. It will be used strictly for any news or updates related to this website.</p>
       <p>Respecting your privacy is our top priority.</p>
     </article>
