@@ -1,5 +1,5 @@
 Options -Indexes
 
-<Files "db-config.php">
+<FilesMatch "^(db|admin)-config\.php$">
   Require all denied
-</Files>
+</FilesMatch>
