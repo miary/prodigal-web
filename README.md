@@ -33,7 +33,7 @@ Then visit http://localhost:8000. The sign-up form needs PHP and MySQL, so it sh
 
 ## Deployment
 
-The site is hosted on Hostinger and uploaded over FTPS. Use TLS 1.2, because uploads larger than about 12 KB fail over TLS 1.3 on this server. The `.git` folder, `.gitignore`, `README.md`, `db/` and `.DS_Store` are not uploaded. After changing the home page, flush the Hostinger CDN cache.
+The site is hosted on Hostinger and uploaded over FTPS. Use TLS 1.2, because uploads larger than about 12 KB fail over TLS 1.3 on this server. The `.git` folder, `.gitignore`, `README.md`, `db/` and `.DS_Store` are not uploaded. The Hostinger CDN can cache scripts and styles for up to 7 days, so after changing `js/main.js` or `css/style.css`, raise the `?v=` number on its link in `index.html`.
 
 A copy is also published on GitHub Pages at https://miary.github.io/prodigal-web/ from the root of the `main` branch. GitHub Pages can't run PHP, so the sign-up form shows an error on that copy.
 
