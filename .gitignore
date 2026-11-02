@@ -27,3 +27,4 @@ build/
 .env
 .env.*
 !.env.example
+api/db-config.php

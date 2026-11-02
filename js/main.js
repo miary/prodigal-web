@@ -1,4 +1,4 @@
-/* The Prodigal Channel: page behaviour. No network requests are made here. */
+/* The Prodigal Channel: page behavior. */
 
 (function () {
   "use strict";
@@ -24,18 +24,56 @@
 
   /* ---------- Sign-up form ---------- */
 
-  /*
-   * The site's original database no longer exists, so this form has nowhere
-   * to send anything. Nothing entered here is stored or transmitted. To
-   * collect sign-ups, connect the form to a backend in this handler.
-   */
+  /* Sends the form to api/signup.php, which saves it to MySQL. */
   var form = document.getElementById("signup-form");
   var status = document.getElementById("signup-status");
+  var button = form.querySelector('button[type="submit"]');
+  var buttonLabel = button.innerHTML;
+  var failureMessage = "We couldn’t save your request. Please try again.";
+
+  function showStatus(message) {
+    status.textContent = message;
+    status.focus();
+  }
+
+  function setBusy(busy) {
+    form.setAttribute("aria-busy", String(busy));
+    button.disabled = busy;
+    button.innerHTML = busy ? "Saving your request…" : buttonLabel;
+  }
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
-    status.textContent =
-      "Sign-ups aren’t open yet. Your details were not saved. Please check back soon.";
-    status.focus();
+    status.textContent = "";
+    setBusy(true);
+
+    fetch("api/signup.php", { method: "POST", body: new FormData(form) })
+      .then(function (response) {
+        return response
+          .json()
+          .catch(function () {
+            return {};
+          })
+          .then(function (data) {
+            if (!response.ok || !data.ok) {
+              throw new Error(data.error || failureMessage);
+            }
+          });
+      })
+      .then(function () {
+        form.reset();
+        form.hidden = true;
+        status.classList.add("success");
+        showStatus(
+          "You’re on the list. Thank you for joining the journey. Your publication-notification request has been saved."
+        );
+      })
+      .catch(function (error) {
+        /* A network failure's own message isn't meant for visitors. */
+        showStatus(error instanceof TypeError ? failureMessage : error.message);
+      })
+      .finally(function () {
+        setBusy(false);
+      });
   });
 })();

@@ -143,7 +143,7 @@
       </div>
     </section>
 
-    <!-- Sign-up (not connected to a backend: see js/main.js) -->
+    <!-- Sign-up: submitted by js/main.js to api/signup.php -->
     <section id="notify" class="signup">
       <div>
         <div class="eyebrow gold">YOUR INVITATION</div>
@@ -152,7 +152,7 @@
         <span class="signup-note">A story to return to. An invitation to keep.</span>
       </div>
       <div class="form-wrap">
-        <form id="signup-form" aria-label="Book publication notification" aria-describedby="signup-privacy">
+        <form id="signup-form" action="api/signup.php" method="post" aria-label="Book publication notification" aria-describedby="signup-privacy">
           <label for="name">First name <span>(optional)</span></label>
           <input id="name" name="name" autocomplete="given-name" placeholder="Your first name" maxlength="80">
 
@@ -265,7 +265,7 @@
     <article>
       <div class="eyebrow">PRIVACY NOTE</div>
       <h2 id="dialog-privacy-title">A simple invitation.</h2>
-      <p>This form collects your email address, optional first name, consent, and the date of your request so Miary Andria can notify you when The Father Is Not Hiring is published.</p>
+      <p>This form collects your email address, optional first name, consent, and the date of your request so you can be notified when The Father Is Not Hiring is published.</p>
       <p>Your submission is stored in the site’s database and is not displayed publicly. Submitting the form does not subscribe you to a recurring newsletter. No confirmation email is sent by this form.</p>
       <p>Only provide details you want used for the publication announcement. Any announcement should include a way to decline further contact.</p>
     </article>
