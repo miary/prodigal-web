@@ -42,6 +42,8 @@ A copy is also published on GitHub Pages at https://miary.github.io/prodigal-web
 
 `js/main.js` posts the form to `api/signup.php`, which saves each entry to the `signups` table. To set up a new database, run `db/schema.sql`.
 
+To reduce spam, the script uses a hidden trap field, rejects submissions sent within 3 seconds of opening the page or without the time added by `js/main.js`, and limits each IP address to 10 sign-ups per hour. The limits are set at the top of `api/signup.php`. IP addresses are stored only as a keyed hash and deleted after an hour.
+
 The script reads its credentials from `api/db-config.php`. That file is kept out of git and blocked from the web by `api/.htaccess`. It has this format:
 
 ```php

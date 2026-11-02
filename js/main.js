@@ -30,6 +30,7 @@
   var button = form.querySelector('button[type="submit"]');
   var buttonLabel = button.innerHTML;
   var failureMessage = "We couldn’t save your request. Please try again.";
+  var pageOpenedAt = Date.now();
 
   function showStatus(message) {
     status.textContent = message;
@@ -47,7 +48,10 @@
     status.textContent = "";
     setBusy(true);
 
-    fetch("api/signup.php", { method: "POST", body: new FormData(form) })
+    var data = new FormData(form);
+    data.append("elapsed", String(Date.now() - pageOpenedAt));
+
+    fetch("api/signup.php", { method: "POST", body: data })
       .then(function (response) {
         return response
           .json()
