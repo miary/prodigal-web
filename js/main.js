@@ -3,11 +3,73 @@
 (function () {
   "use strict";
 
+  /* ---------- Anonymous visit statistics ---------- */
+
+  /*
+   * Sends cookie-free counts to api/track.php: one page view, which articles
+   * are opened, which links marked data-track are clicked, and how far down
+   * the page people scroll. The private admin page can switch this off for
+   * the owner's own browser.
+   */
+  var countVisits = !!navigator.sendBeacon;
+  try {
+    if (localStorage.getItem("prodigal-no-stats") === "1") countVisits = false;
+  } catch (error) {
+    /* Storage blocked: count as usual. */
+  }
+
+  function track(name, label, details) {
+    if (!countVisits) return;
+    var data = new URLSearchParams(details || {});
+    data.set("e", name);
+    if (label) data.set("l", label);
+    navigator.sendBeacon("api/track.php", data);
+  }
+
+  var query = new URLSearchParams(location.search);
+  var timezone = "";
+  try {
+    timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+  } catch (error) {
+    /* Older browser: leave it out. */
+  }
+  track("pageview", "", {
+    r: document.referrer,
+    s: query.get("utm_source") || "",
+    c: query.get("utm_campaign") || "",
+    w: String(window.innerWidth),
+    tz: timezone
+  });
+
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest("[data-track]");
+    if (link) track("click", link.dataset.track);
+  });
+
+  var depths = [25, 50, 75, 100];
+  var scrollQueued = false;
+  function checkScroll() {
+    scrollQueued = false;
+    var page = document.documentElement;
+    var seen = ((window.scrollY + window.innerHeight) / page.scrollHeight) * 100;
+    while (depths.length && seen >= depths[0] - 1) {
+      track("scroll", String(depths.shift()));
+    }
+    if (!depths.length) window.removeEventListener("scroll", queueScroll);
+  }
+  function queueScroll() {
+    if (scrollQueued) return;
+    scrollQueued = true;
+    requestAnimationFrame(checkScroll);
+  }
+  window.addEventListener("scroll", queueScroll, { passive: true });
+
   /* ---------- Dialogs (insight articles and the privacy note) ---------- */
 
   document.querySelectorAll("[data-dialog]").forEach(function (trigger) {
     trigger.addEventListener("click", function () {
       document.getElementById(trigger.dataset.dialog).showModal();
+      track("open", trigger.dataset.dialog.replace(/^dialog-/, ""));
     });
   });
 

@@ -97,6 +97,8 @@ function sendReply(array $settings, string $to, string $subject, string $body): 
 }
 
 $signedIn = !empty($_SESSION['signed_in']);
+$view = ($_GET['view'] ?? '') === 'stats' ? 'stats' : 'signups';
+$selfUrl = strtok($_SERVER['REQUEST_URI'], '?');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hash_equals($_SESSION['csrf'], (string) ($_POST['csrf'] ?? ''))) {
@@ -192,8 +194,17 @@ $draft = $_SESSION['draft'] ?? ['ids' => [], 'subject' => '', 'message' => ''];
 unset($_SESSION['draft']);
 
 $people = [];
+$stats = null;
 $loadError = false;
-if ($signedIn) {
+if ($signedIn && $view === 'stats') {
+    require __DIR__ . '/stats.php';
+    try {
+        $stats = loadStats(database($apiDir), statsPeriod($_GET['days'] ?? 30));
+    } catch (Throwable $error) {
+        error_log('Admin stats failed: ' . $error->getMessage());
+        $loadError = true;
+    }
+} elseif ($signedIn) {
     try {
         $people = database($apiDir)
             ->query('SELECT id, email, full_name, created_at, last_replied_at FROM signups ORDER BY created_at DESC, id DESC')
@@ -212,37 +223,9 @@ header('Content-Type: text/html; charset=utf-8');
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title>Sign-ups</title>
+  <title><?= $view === 'stats' ? 'Stats' : 'Sign-ups' ?></title>
   <style>
-    :root { --paper: #f6f3eb; --ink: #293126; --olive: #313b2b; --muted: #565f50; --rule: #cdcebd; --error: #8f2d20; }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--paper); color: var(--ink); font: 1rem/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
-    main { max-width: 1000px; margin: auto; padding: 32px 16px 64px; }
-    h1 { font: 400 2.25rem/1.2 Georgia, serif; margin: 0; }
-    h2 { font: 400 1.5rem/1.3 Georgia, serif; margin: 40px 0 8px; }
-    .top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
-    .count { color: var(--muted); margin: 4px 0 24px; }
-    .notice { padding: 12px 16px; margin: 16px 0; border-left: 4px solid var(--olive); background: #e8eadf; overflow-wrap: anywhere; }
-    .notice.error { border-color: var(--error); color: var(--error); background: #f4e4df; }
-    .table-wrap { overflow-x: auto; border: 1px solid var(--rule); background: #fff; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--rule); white-space: nowrap; }
-    tr:last-child td { border-bottom: 0; }
-    th { font-size: .8125rem; color: var(--muted); font-weight: 600; }
-    td.wrap { white-space: normal; overflow-wrap: anywhere; min-width: 160px; }
-    label { display: block; font-weight: 600; margin: 16px 0 6px; }
-    input[type=text], input[type=password], textarea { width: 100%; padding: 12px; font: inherit; color: inherit; background: #fff; border: 1px solid #8d9480; border-radius: 0; }
-    textarea { min-height: 200px; resize: vertical; }
-    input[type=checkbox] { width: 20px; height: 20px; accent-color: var(--olive); vertical-align: middle; }
-    button { min-height: 44px; padding: 10px 20px; font: inherit; cursor: pointer; color: #fff; background: var(--olive); border: 0; }
-    button:hover { background: #4e5b3d; }
-    button.plain { color: var(--ink); background: transparent; border: 1px solid #8d9480; }
-    button.plain:hover { background: #e8eadf; }
-    .hint { color: var(--muted); font-size: .9375rem; margin: 6px 0 0; }
-    .selected { font-weight: 600; margin: 16px 0 0; }
-    .login { max-width: 400px; margin: 10vh auto 0; }
-    .actions { margin-top: 20px; }
-    :focus-visible { outline: 3px solid #a08a47; outline-offset: 2px; }
+<?= file_get_contents(__DIR__ . '/admin.css') ?>
   </style>
 </head>
 <body>
@@ -262,13 +245,82 @@ header('Content-Type: text/html; charset=utf-8');
   </form>
 <?php else: ?>
   <div class="top">
-    <h1>Sign-ups</h1>
+    <h1><?= $view === 'stats' ? 'Stats' : 'Sign-ups' ?></h1>
     <form method="post" action="">
       <input type="hidden" name="csrf" value="<?= e($_SESSION['csrf']) ?>">
       <input type="hidden" name="action" value="logout">
       <button class="plain" type="submit">Sign out</button>
     </form>
   </div>
+  <nav class="views" aria-label="Views">
+    <a href="<?= e($selfUrl) ?>"<?= $view === 'signups' ? ' aria-current="page"' : '' ?>>Sign-ups</a>
+    <a href="<?= e($selfUrl . '?view=stats') ?>"<?= $view === 'stats' ? ' aria-current="page"' : '' ?>>Stats</a>
+  </nav>
+
+  <?php if ($view === 'stats'): ?>
+    <?php if ($loadError): ?>
+      <div class="notice error" role="alert">The statistics could not be loaded from the database.</div>
+    <?php else: ?>
+      <?= renderStats($stats, require "$apiDir/stats-labels.php", $selfUrl) ?>
+    <?php endif; ?>
+    <script>
+      (function () {
+        /* Hover tooltip for the chart bars. The same numbers are in the table below the chart. */
+        var box = document.querySelector(".chart-box");
+        if (box) {
+          var tip = box.querySelector(".chart-tip");
+          var active = null;
+          box.addEventListener("pointermove", function (event) {
+            var bar = event.target.closest(".bar");
+            if (active && active !== bar) active.classList.remove("active");
+            active = bar;
+            if (!bar) { tip.hidden = true; return; }
+            bar.classList.add("active");
+            var area = box.getBoundingClientRect();
+            var mark = bar.querySelector(".hit").getBoundingClientRect();
+            tip.textContent = bar.dataset.tip;
+            tip.hidden = false;
+            var half = tip.offsetWidth / 2;
+            var x = Math.min(Math.max(mark.left - area.left + mark.width / 2, half), area.width - half);
+            tip.style.left = x + "px";
+            tip.style.top = (event.clientY - area.top) + "px";
+          });
+          box.addEventListener("pointerleave", function () {
+            tip.hidden = true;
+            if (active) active.classList.remove("active");
+            active = null;
+          });
+        }
+
+        /* Lets the owner keep their own visits out of the numbers, per browser. */
+        var key = "prodigal-no-stats";
+        var button = document.getElementById("own-visits-toggle");
+        var status = document.getElementById("own-visits");
+        if (!button) return;
+        function read() {
+          try { return localStorage.getItem(key) === "1"; } catch (error) { return null; }
+        }
+        function show() {
+          var off = read();
+          if (off === null) {
+            status.textContent = "This browser blocks site storage, so its visits can’t be excluded.";
+            button.hidden = true;
+            return;
+          }
+          status.textContent = off ? "Visits from this browser are not counted." : "Visits from this browser are counted.";
+          button.textContent = off ? "Count visits from this browser" : "Don’t count visits from this browser";
+          button.hidden = false;
+        }
+        button.addEventListener("click", function () {
+          try {
+            if (read()) localStorage.removeItem(key); else localStorage.setItem(key, "1");
+          } catch (error) { /* shown by read() */ }
+          show();
+        });
+        show();
+      })();
+    </script>
+  <?php else: ?>
   <p class="count"><strong id="total"><?= count($people) ?></strong> <?= count($people) === 1 ? 'person has' : 'people have' ?> signed up.</p>
 
   <?php if ($loadError): ?>
@@ -347,6 +399,7 @@ header('Content-Type: text/html; charset=utf-8');
         update();
       })();
     </script>
+  <?php endif; ?>
   <?php endif; ?>
 <?php endif; ?>
 </main>

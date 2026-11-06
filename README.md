@@ -60,7 +60,7 @@ Sign-ups can be viewed in phpMyAdmin in hPanel.
 
 ## Private admin page
 
-`admin/index.php` lists sign-ups and sends personalized replies. Deploy it to an unlisted folder at the web root, not to `admin/`, and don't write that folder name in this repo. It reads the database settings above and `api/admin-config.php`. The page stays closed until that file exists. It is also kept out of git and blocked from the web, and has this format:
+`admin/index.php` lists sign-ups, sends personalized replies and shows visit statistics (`admin/stats.php`, styled by `admin/admin.css`). Deploy it to an unlisted folder at the web root, not to `admin/`, and don't write that folder name in this repo. It reads the database settings above and `api/admin-config.php`. The page stays closed until that file exists. It is also kept out of git and blocked from the web, and has this format:
 
 ```php
 <?php
@@ -70,6 +70,12 @@ return [
   'mail_from_name' => 'Your Name',
 ];
 ```
+
+## Visit statistics
+
+`js/main.js` sends anonymous, cookie-free events to `api/track.php`: one page view per load (with the referring site, any `utm_source` and `utm_campaign` tags, a device type from the window width, and the browser's time zone), article opens, clicks on links marked `data-track`, and scroll depth. Only events listed in `api/stats-labels.php` are saved. No IP address is stored. Each visitor is a hash of their connection, browser and a random daily salt, and each day's salt is deleted the next day. Known bots are skipped, each visitor is limited to 300 events a day, and events older than about 13 months are deleted. The tables are `stats_events` and `stats_salts` in `db/schema.sql`.
+
+The admin page shows these figures under **Stats**, with the number of sign-ups over the same period. It can also stop counting visits from the owner's own browser.
 
 ## Credits
 
