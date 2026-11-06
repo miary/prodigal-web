@@ -41,6 +41,15 @@
     tz: timezone
   });
 
+  /* Once counted, drop the tags so the address bar and shared links stay clean. */
+  if (query.has("utm_source") || query.has("utm_campaign") || query.has("utm_medium")) {
+    ["utm_source", "utm_campaign", "utm_medium", "utm_content", "utm_term"].forEach(function (key) {
+      query.delete(key);
+    });
+    var rest = query.toString();
+    history.replaceState(null, "", location.pathname + (rest ? "?" + rest : "") + location.hash);
+  }
+
   document.addEventListener("click", function (event) {
     var link = event.target.closest("[data-track]");
     if (link) track("click", link.dataset.track);
