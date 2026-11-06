@@ -1,0 +1,62 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "italic-serif-display",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-06T00:30:08.586Z",
+        "reason": "Claude: incumbent brand heading system, roman Libre Caslon with one italic phrase per heading, editorial book register"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "css/style.css"
+        ],
+        "createdAt": "2026-11-06T00:30:08.606Z",
+        "reason": "Claude: 9px border-left is the spine of the mock book cover, not a card accent"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-06T00:30:08.624Z",
+        "reason": "Claude: false positive, sections use percentage/max() side padding; renders at 1440/1024/390 show 6-9% insets"
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-06T00:30:18.035Z",
+        "reason": "Claude: every letter-spaced style on this page is a short uppercase label (eyebrows, verse, brand, card tags), never running body text"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-06T00:30:18.055Z",
+        "reason": "Claude: --paper #f6f3eb is the incumbent brand background, matching the book and logo artwork"
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-06T00:37:48.183Z",
+        "reason": "user confirmed: asked to restore the hero label above the headline at a larger size (2026-11-05)"
+      }
+    ]
+  }
+}

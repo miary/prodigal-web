@@ -279,21 +279,41 @@ p {
 /* ---------- Opening question ---------- */
 
 .opening {
-  text-align: center;
   background: #eeeee4;
   border-top: 1px solid #dedfd3;
-  padding: 77px 24px 86px;
+  padding: clamp(72px, 10vw, 150px) 6% clamp(64px, 8vw, 120px);
+}
+.opening-inner {
+  max-width: calc(1440px - 12%);
+  margin: auto;
 }
 .opening h2 {
-  margin: 22px 0;
-  font-size: 45px;
-  line-height: 1.14;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  margin: 0;
+  font-size: clamp(2.5rem, 6.9vw, 6rem);
+  line-height: 1.02;
+}
+.opening h2 em {
+  font-style: italic;
+}
+.opening-follow {
+  border-top: 1px solid #cdcebd;
+  grid-template-columns: minmax(0, 36rem) auto;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px 60px;
+  margin-top: clamp(40px, 5vw, 72px);
+  padding-top: 28px;
+  display: grid;
 }
 .opening p {
-  max-width: 570px;
   color: var(--muted);
-  margin: 0 auto 24px;
+  margin: 0;
   font-size: 14px;
+}
+.opening-follow .text-link {
+  justify-self: start;
 }
 
 /* ---------- The book ---------- */
@@ -325,7 +345,7 @@ p {
   overflow: hidden;
   transform: rotate(-5deg);
   box-shadow:
-    14px 14px #18231555,
+    8px 10px 6px #18231566,
     18px 28px 34px #19201080;
 }
 .cover-top {
@@ -836,11 +856,8 @@ dialog p {
   .verse {
     font-size: 7px;
   }
-  .opening {
-    padding: 55px 7%;
-  }
-  .opening h2 {
-    font-size: 36px;
+  .opening-follow {
+    grid-template-columns: minmax(0, 1fr);
   }
   .book-section {
     grid-template-columns: 1fr;
@@ -1135,6 +1152,12 @@ footer > a:not(.brand),
 em {
   color: #656e50;
 }
+.youtube h2 em {
+  color: #59624f;
+}
+.eyebrow.hero-eyebrow {
+  font-size: 0.875rem;
+}
 .book-copy h2 em,
 .signup h2 em {
   color: #d7c58d;
@@ -1307,7 +1330,7 @@ footer > span {
   }
   .brand-sub {
     letter-spacing: 2px;
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
   }
   .hero {
     padding-top: 35px;
@@ -1336,7 +1359,6 @@ footer > span {
   .signup .button {
     gap: 10px;
   }
-  .opening h2,
   .section-heading h2,
   .author h2,
   .youtube h2,

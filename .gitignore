@@ -29,3 +29,7 @@ build/
 !.env.example
 api/db-config.php
 api/admin-config.php
+
+# Impeccable design checker local state
+.impeccable/hook.cache.json
+.impeccable/config.local.json
