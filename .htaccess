@@ -3,13 +3,18 @@
   Header set Cache-Control "no-cache"
 </FilesMatch>
 
-# Short links for YouTube descriptions. They lead to the home page with tags
+# Short links for YouTube and Facebook. They lead to the home page with tags
 # that the stats page shows under "Campaign links":
 #   /yt               -> utm_source=youtube, utm_campaign=channel
 #   /yt/video-name    -> utm_source=youtube, utm_campaign=video-name
+#   /fb               -> utm_source=facebook, utm_campaign=page
+#   /fb/post-name     -> utm_source=facebook, utm_campaign=post-name
 # Temporary (302) redirects, so browsers don't remember them if they change.
+# QSD drops anything added to the link, such as Facebook's fbclid code.
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^yt/?$ /?utm_source=youtube&utm_campaign=channel [R=302,L,NC]
-  RewriteRule ^yt/([A-Za-z0-9-]{1,60})/?$ /?utm_source=youtube&utm_campaign=$1 [R=302,L,NC]
+  RewriteRule ^yt/?$ /?utm_source=youtube&utm_campaign=channel [R=302,L,NC,QSD]
+  RewriteRule ^yt/([A-Za-z0-9-]{1,60})/?$ /?utm_source=youtube&utm_campaign=$1 [R=302,L,NC,QSD]
+  RewriteRule ^fb/?$ /?utm_source=facebook&utm_campaign=page [R=302,L,NC,QSD]
+  RewriteRule ^fb/([A-Za-z0-9-]{1,60})/?$ /?utm_source=facebook&utm_campaign=$1 [R=302,L,NC,QSD]
 </IfModule>

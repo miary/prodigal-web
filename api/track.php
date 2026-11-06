@@ -55,7 +55,8 @@ if ($name === 'pageview') {
 function referrerHost(string $url, string $ownHost): ?string
 {
     $refHost = strtolower((string) parse_url($url, PHP_URL_HOST));
-    $refHost = preg_replace('/^(www|m)\./', '', $refHost);
+    /* m., l. and lm. are mobile and link-redirect hosts, e.g. l.facebook.com. */
+    $refHost = preg_replace('/^(www|m|l|lm)\./', '', $refHost);
     $ownHost = preg_replace('/^www\./', '', $ownHost);
     if ($refHost === '' || $refHost === $ownHost || !preg_match('/^[a-z0-9.-]{1,120}$/', $refHost)) {
         return null;

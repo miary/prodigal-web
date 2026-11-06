@@ -42,8 +42,9 @@
   });
 
   /* Once counted, drop the tags so the address bar and shared links stay clean. */
-  if (query.has("utm_source") || query.has("utm_campaign") || query.has("utm_medium")) {
-    ["utm_source", "utm_campaign", "utm_medium", "utm_content", "utm_term"].forEach(function (key) {
+  var trackingKeys = ["utm_source", "utm_campaign", "utm_medium", "utm_content", "utm_term", "fbclid"];
+  if (trackingKeys.some(function (key) { return query.has(key); })) {
+    trackingKeys.forEach(function (key) {
       query.delete(key);
     });
     var rest = query.toString();
