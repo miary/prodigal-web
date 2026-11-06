@@ -60,7 +60,7 @@ Sign-ups can be viewed in phpMyAdmin in hPanel.
 
 ## Private admin page
 
-`admin/index.php` lists sign-ups, sends personalized replies and shows visit statistics (`admin/stats.php`, styled by `admin/admin.css`). Deploy it to an unlisted folder at the web root, not to `admin/`, and don't write that folder name in this repo. It reads the database settings above and `api/admin-config.php`. The page stays closed until that file exists. It is also kept out of git and blocked from the web, and has this format:
+`admin/index.php` lists sign-ups, sends personalized replies, deletes ticked sign-ups (after a confirmation) and shows visit statistics (`admin/stats.php`, styled by `admin/admin.css`). Deploy it to an unlisted folder at the web root, not to `admin/`, and don't write that folder name in this repo. It reads the database settings above and `api/admin-config.php`. The page stays closed until that file exists. It is also kept out of git and blocked from the web, and has this format:
 
 ```php
 <?php

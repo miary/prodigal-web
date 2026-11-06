@@ -185,6 +185,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         back();
     }
 
+    if ($action === 'delete') {
+        $ids = array_values(array_filter(array_unique(array_map('intval', (array) ($_POST['ids'] ?? [])))));
+        if ($ids === []) {
+            flash('error', 'Choose at least one person to delete.');
+            back();
+        }
+
+        try {
+            $marks = implode(',', array_fill(0, count($ids), '?'));
+            $delete = database($apiDir)->prepare("DELETE FROM signups WHERE id IN ($marks)");
+            $delete->execute($ids);
+            $deleted = $delete->rowCount();
+            flash('success', "Deleted $deleted " . ($deleted === 1 ? 'sign-up' : 'sign-ups') . '.');
+        } catch (Throwable $error) {
+            error_log('Admin delete failed: ' . $error->getMessage());
+            flash('error', 'The sign-ups could not be deleted. Nothing was changed.');
+        }
+        back();
+    }
+
     back();
 }
 
@@ -343,7 +363,7 @@ header('Content-Type: text/html; charset=utf-8');
           <tbody>
           <?php foreach ($people as $person): ?>
             <tr>
-              <td><input type="checkbox" name="ids[]" value="<?= (int) $person['id'] ?>" aria-label="Select <?= e($person['email']) ?>" <?= in_array((int) $person['id'], $draft['ids'], true) ? 'checked' : '' ?>></td>
+              <td><input type="checkbox" name="ids[]" value="<?= (int) $person['id'] ?>" data-email="<?= e($person['email']) ?>" aria-label="Select <?= e($person['email']) ?>" <?= in_array((int) $person['id'], $draft['ids'], true) ? 'checked' : '' ?>></td>
               <td class="wrap"><?= $person['full_name'] === null ? '<span class="hint">Not given</span>' : e($person['full_name']) ?></td>
               <td class="wrap"><?= e($person['email']) ?></td>
               <td><?= e($person['created_at']) ?></td>
@@ -352,6 +372,10 @@ header('Content-Type: text/html; charset=utf-8');
           <?php endforeach; ?>
           </tbody>
         </table>
+      </div>
+      <div class="table-tools">
+        <button class="plain danger" type="submit" form="delete-form" id="delete-button">Delete selected</button>
+        <span class="hint">Removes the ticked people for good, for clearing out test entries.</span>
       </div>
 
       <h2>Send a reply</h2>
@@ -365,6 +389,11 @@ header('Content-Type: text/html; charset=utf-8');
       <textarea id="message" name="message" required><?= e($draft['message']) ?></textarea>
 
       <div class="actions"><button type="submit" id="send-button">Send</button></div>
+    </form>
+    <!-- The ticked ids are copied in by the script below when "Delete selected" is pressed. -->
+    <form method="post" action="" id="delete-form">
+      <input type="hidden" name="csrf" value="<?= e($_SESSION['csrf']) ?>">
+      <input type="hidden" name="action" value="delete">
     </form>
     <script>
       (function () {
@@ -395,6 +424,33 @@ header('Content-Type: text/html; charset=utf-8');
             return;
           }
           document.getElementById("send-button").disabled = true;
+        });
+
+        var deleteForm = document.getElementById("delete-form");
+        deleteForm.addEventListener("submit", function (event) {
+          var picked = boxes.filter(function (box) { return box.checked; });
+          if (picked.length === 0) {
+            event.preventDefault();
+            label.textContent = "Tick the people to delete first.";
+            label.scrollIntoView({ block: "center" });
+            return;
+          }
+          var question = picked.length === 1
+            ? "Delete " + picked[0].dataset.email + "? This can’t be undone."
+            : "Delete these " + picked.length + " sign-ups? This can’t be undone.";
+          if (!window.confirm(question)) {
+            event.preventDefault();
+            return;
+          }
+          deleteForm.querySelectorAll('input[name="ids[]"]').forEach(function (old) { old.remove(); });
+          picked.forEach(function (box) {
+            var id = document.createElement("input");
+            id.type = "hidden";
+            id.name = "ids[]";
+            id.value = box.value;
+            deleteForm.appendChild(id);
+          });
+          document.getElementById("delete-button").disabled = true;
         });
         update();
       })();

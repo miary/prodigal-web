@@ -24,6 +24,10 @@ button { min-height: 44px; padding: 10px 20px; font: inherit; cursor: pointer; c
 button:hover { background: #4e5b3d; }
 button.plain { color: var(--ink); background: transparent; border: 1px solid #8d9480; }
 button.plain:hover { background: #e8eadf; }
+button.danger { color: var(--error); border-color: var(--error); }
+button.danger:hover { background: #f4e4df; }
+.table-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: 12px; }
+.table-tools .hint { margin: 0; }
 .hint { color: var(--muted); font-size: .9375rem; margin: 6px 0 0; }
 .selected { font-weight: 600; margin: 16px 0 0; }
 .login { max-width: 400px; margin: 10vh auto 0; }
